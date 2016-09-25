@@ -93,6 +93,29 @@ def extract_snippets(wikitext, minlen, maxlen):
             secsnippets.append(snippet)
     return snippets
 
+def extract_lead(wikitext, minlen, maxlen):
+    sections = mwparserfromhell.parse(wikitext).get_sections(
+        include_lead = True, include_headings = True, flat = True)
+    lead = sections[0]
+
+    blacklisted_tag_or_template = itertools.chain(
+        (tag.tag in cfg.tags_blacklist
+            for tag in lead.filter_tags()),
+        (matches_any(tpl, cfg.templates_blacklist)
+            for tpl in lead.filter_templates()),
+    )
+    if any(blacklisted_tag_or_template):
+        return []
+    lead = cleanup_snippet(lead.strip_code())
+    # Take the first paragraph only
+    lead = lead.split('\n\n')[0]
+    if len(lead) > maxlen or len(lead) < minlen:
+        return []
+    return [['', [lead]]]
+
+if cfg.lang_code == 'de':
+    extract_snippets = extract_lead
+
 if __name__ == '__main__':
     import pprint
     import sys

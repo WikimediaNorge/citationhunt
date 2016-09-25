@@ -355,6 +355,36 @@ lang_code_to_config = dict(
 
         snippet_min_size = 20,
     ),
+
+    de = dict(
+        lang_name = 'Deutsch',
+        lang_dir = 'ltr',
+        database = 'dewiki_p',
+        wikipedia_domain = 'de.wikipedia.org',
+
+        beginners_link = 'https://de.wikipedia.org/wiki/Wikipedia:Literatur',
+        beginners_link_title = 'Wikipedia:Literatur',
+        lead_section_policy_link = '',
+        lead_section_policy_link_title = '',
+
+        # For German, we just display the lead section of the article, so
+        # some of these keys don't apply
+        citation_needed_category = 'Wikipedia:Belege_fehlen',
+        citation_needed_templates = [],
+        citation_needed_template_name = '',
+        wikilink_prefix_blacklist = EN_WIKILINK_PREFIX_BLACKLIST + [
+            'Datei:',
+            'Kategorie:',
+        ],
+        tags_blacklist = EN_TAGS_BLACKLIST,
+        templates_blacklist = [],
+        hidden_category = 'Kategorie:Versteckt',
+        category_name_regexps_blacklist = [
+            '.*[0-9]+.*',
+        ],
+        # Lead sections have big paragraphs!
+        snippet_max_size = 750,
+    ),
 )
 
 # In py3: types.SimpleNamespace
